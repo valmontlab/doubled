@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>SORTEO — ONE POINT CHALLENGE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #2d5a3d;
+            --green-dark: #1a3a28;
+            --green-light: #3a7a52;
+            --black: #0a0a0a;
+            --cream: #f7f4ef;
+            --cream-dark: #ebe7df;
+            --white: #ffffff;
+            --gold: #d4a843;
+            --gold-light: #f5ecd4;
+            --silver: #a8a8a8;
+            --gray-100: #f5f5f5;
+            --gray-500: #888;
+            --gray-700: #444;
+            --red: #c0392b;
+            --font-display: 'Cormorant Garamond', Georgia, serif;
+            --font-body: 'DM Sans', 'Segoe UI', sans-serif;
+            --radius: 10px;
+            --shadow: 0 2px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--black);
+            color: var(--cream);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        .header {
+            background: linear-gradient(160deg, var(--green-dark) 0%, var(--black) 60%);
+            padding: 2.5rem 1rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--green);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 50%, rgba(45,90,61,0.15) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 6vw, 3.2rem);
+            font-weight: 700;
+            color: var(--cream);
+            letter-spacing: 0.04em;
+            position: relative;
+        }
+
+        .header .sub {
+            font-size: 0.95rem;
+            color: rgba(247,244,239,0.7);
+            margin-top: 0.4rem;
+        }
+
+        .header .sub strong { color: var(--cream); }
+
+        .sync-dot {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--green-light);
+            margin-right: 0.3rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* ── CONTAINER ── */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.5rem 1rem 4rem;
+        }
+
+        /* ── STATS ── */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat {
+            background: rgba(45,90,61,0.15);
+            border: 1px solid rgba(45,90,61,0.3);
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .stat .number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--green-light);
+            font-family: var(--font-display);
+        }
+
+        .stat .label {
+            font-size: 0.78rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.2rem;
+        }
+
+        /* ── CONTROLS ── */
+        .controls {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn:active { transform: scale(0.97); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+        .btn-sorteo {
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-light) 100%);
+            color: var(--white);
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 20px rgba(45,90,61,0.4);
+        }
+
+        .btn-sorteo:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 28px rgba(45,90,61,0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--green-light);
+            border: 2px solid rgba(45,90,61,0.5);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: rgba(45,90,61,0.2);
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.82rem;
+        }
+
+        /* ── SECTION ── */
+        .section {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cream);
+            margin-bottom: 1.2rem;
+        }
+
+        /* ── PARTICIPANT LIST ── */
+        .p-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 8px;
+        }
+
+        .p-list::-webkit-scrollbar { width: 6px; }
+        .p-list::-webkit-scrollbar-thumb { background: var(--green); border-radius: 3px; }
+
+        .p-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.88rem;
+        }
+
+        .p-row:last-child { border-bottom: none; }
+        .p-row:hover { background: rgba(45,90,61,0.1); }
+
+        .p-row .num { color: var(--green-light); font-weight: 700; min-width: 32px; }
+        .p-row .name { font-weight: 600; flex: 1; }
+        .p-row .age { color: var(--gray-500); font-size: 0.82rem; }
+
+        .p-row.excluded {
+            opacity: 0.35;
+            text-decoration: line-through;
+        }
+
+        .exclude-toggle {
+            width: 18px; height: 18px;
+            background: none;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--red);
+            flex-shrink: 0;
+            padding: 0;
+        }
+
+        .exclude-toggle.active {
+            border-color: var(--red);
+            background: rgba(192,57,43,0.2);
+        }
+
+        /* ── CONFIRM DIALOG ── */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .overlay.open { display: flex; }
+
+        .dialog {
+            background: var(--black);
+            border: 1px solid rgba(45,90,61,0.4);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .dialog h3 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--cream);
+            margin-bottom: 0.8rem;
+        }
+
+        .dialog p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .dialog-actions {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+        }
+
+        /* ── WINNERS REVEAL ── */
+        .reveal-stage {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--black);
+            z-index: 200;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .reveal-stage.active { display: flex; }
+
+        .reveal-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: var(--green-light);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0;
+            animation: fadeUp 0.6s ease-out forwards;
+        }
+
+        .reveal-slot {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            color: var(--cream);
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reveal-position {
+            font-size: clamp(4rem, 10vw, 7rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .reveal-counter {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            margin-top: 1.5rem;
+            letter-spacing: 0.08em;
+        }
+
+        .reveal-skip {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 201;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slotSpin {
+            0% { transform: translateY(-30px); opacity: 0; }
+            50% { transform: translateY(5px); opacity: 0.5; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .slot-anim {
+            animation: slotSpin 0.4s ease-out;
+        }
+
+        /* ── WINNERS GRID ── */
+        .winners-section { display: none; }
+        .winners-section.show { display: block; }
+
+        .winners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .w-card {
+            background: linear-gradient(145deg, var(--green-dark) 0%, var(--black) 100%);
+            border: 1px solid rgba(45,90,61,0.4);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: cardIn 0.5s ease-out both;
+        }
+
+        .w-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green), var(--green-light));
+        }
+
+        .w-card.champion::before {
+            background: linear-gradient(90deg, var(--gold), #e8c36a);
+            height: 4px;
+        }
+
+        .w-card.champion {
+            border-color: rgba(212,168,67,0.4);
+        }
+
+        @keyframes cardIn {
+            from { opacity: 0; transform: scale(0.9) translateY(15px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .w-pos {
+            font-size: 2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .w-name {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cream);
+            margin-bottom: 0.3rem;
+        }
+
+        .w-detail {
+            font-size: 0.82rem;
+            color: var(--gray-500);
+        }
+
+        .w-prize {
+            margin-top: 0.6rem;
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(212,168,67,0.15);
+            border: 1px solid rgba(212,168,67,0.3);
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--gold);
+        }
+
+        /* ── AUDIT LOG ── */
+        .audit-log {
+            font-size: 0.78rem;
+            color: var(--gray-500);
+            font-family: monospace;
+            background: rgba(0,0,0,0.4);
+            border-radius: 6px;
+            padding: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+
+        .audit-log div { margin-bottom: 0.3rem; }
+        .audit-log .ts { color: var(--green-light); }
+
+        /* ── HISTORY ── */
+        .history-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .history-item .h-date {
+            font-size: 0.78rem;
+            color: var(--green-light);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+
+        .history-item .h-names {
+            font-size: 0.88rem;
+            color: var(--cream);
+            line-height: 1.6;
+        }
+
+        /* ── CONFETTI ── */
+        .confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 300;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--gray-500);
+            font-size: 0.82rem;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        /* ── PRINT ── */
+        @media print {
+            body { background: white; color: black; }
+            .header { background: none; border-bottom: 3px solid var(--green); }
+            .header h1 { color: var(--green); }
+            .controls, .section:not(.winners-section), .footer, .reveal-stage { display: none !important; }
+            .winners-section { display: block !important; }
+            .w-card { border: 2px solid var(--green); break-inside: avoid; }
+            .w-name { color: var(--green); }
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            .stats-row { grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; }
+            .stat { padding: 0.8rem 0.5rem; }
+            .stat .number { font-size: 1.6rem; }
+            .winners-grid { grid-template-columns: 1fr; }
+            .controls { justify-content: stretch; }
+            .controls .btn { flex: 1; min-width: 0; }
+            .btn-sorteo { width: 100%; }
+            .section { padding: 1.2rem; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Confetti Canvas -->
+<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+
+<!-- Confirm Dialog -->
+<div class="overlay" id="confirmOverlay">
+    <div class="dialog">
+        <h3>¿Hacer sorteo?</h3>
+        <p id="confirmText">Se seleccionarán 8 ganadores al azar de los participantes elegibles.</p>
+        <div class="dialog-actions">
+            <button class="btn btn-outline btn-sm" onclick="closeConfirm()">Cancelar</button>
+            <button class="btn btn-sorteo btn-sm" onclick="executeDraw()">Sortear ahora</button>
+        </div>
+    </div>
+</div>
+
+<!-- Reveal Stage -->
+<div class="reveal-stage" id="revealStage">
+    <div class="reveal-title" id="revealTitle"></div>
+    <div class="reveal-position" id="revealPosition"></div>
+    <div class="reveal-slot" id="revealSlot"></div>
+    <div class="reveal-counter" id="revealCounter"></div>
+    <button class="btn btn-outline btn-sm reveal-skip" onclick="skipReveal()">Saltar animación →</button>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+    <h1>🎾 SORTEO ONE POINT CHALLENGE</h1>
+    <p class="sub"><strong>DOUBLE D × MASTEROFRAQUETS</strong> · ASICS TENIS CUP 2026</p>
+    <p class="sub" style="margin-top:0.3rem;">
+        <span class="sync-dot"></span>
+        Domingo 29 de Marzo — Youtopia Raquet
+    </p>
+</header>
+
+<div class="container">
+
+    <!-- Stats -->
+    <div class="stats-row">
+        <div class="stat">
+            <div class="number" id="totalStat">0</div>
+            <div class="label">Inscritos</div>
+        </div>
+        <div class="stat">
+            <div class="number" id="eligibleStat">0</div>
+            <div class="label">Elegibles</div>
+        </div>
+        <div class="stat">
+            <div class="number" id="probStat">0%</div>
+            <div class="label">Probabilidad</div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button class="btn btn-sorteo" id="drawBtn" onclick="openConfirm()">
+            🎲 HACER SORTEO
+        </button>
+        <button class="btn btn-outline" id="redrawBtn" onclick="openConfirm()" style="display:none;">
+            🔄 Nuevo sorteo
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="copyWinners()" id="copyBtn" style="display:none;">
+            📋 Copiar ganadores
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="exportWinnersCSV()" id="csvBtn" style="display:none;">
+            CSV ↓
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="window.print()" id="printBtn" style="display:none;">
+            🖨 Imprimir
+        </button>
+    </div>
+
+    <!-- Participants -->
+    <div class="section" id="participantsSection">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+            <h2>Inscritos</h2>
+            <span style="font-size:0.78rem;color:var(--gray-500);">Click ✕ para excluir del sorteo</span>
+        </div>
+        <div class="p-list" id="pList"></div>
+    </div>
+
+    <!-- Winners -->
+    <div class="section winners-section" id="winnersSection">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+            <h2>🏆 Ganadores</h2>
+            <span style="font-size:0.78rem;color:var(--gray-500);" id="drawTimestamp"></span>
+        </div>
+        <div class="winners-grid" id="winnersGrid"></div>
+    </div>
+
+    <!-- Not Selected -->
+    <div class="section" id="notSelectedSection" style="display:none;">
+        <h2>No seleccionados</h2>
+        <div id="notSelectedList" style="font-size:0.88rem;color:var(--gray-500);line-height:1.8;"></div>
+    </div>
+
+    <!-- Audit Log -->
+    <div class="section" id="auditSection">
+        <h2>Registro de auditoría</h2>
+        <p style="font-size:0.82rem;color:var(--gray-500);margin-bottom:0.8rem;">
+            Cada sorteo queda registrado con timestamp, semilla y resultados para verificación.
+        </p>
+        <div class="audit-log" id="auditLog">
+            <div><span class="ts">[sistema]</span> Herramienta de sorteo iniciada</div>
+        </div>
+    </div>
+
+    <!-- History -->
+    <div class="section" id="historySection" style="display:none;">
+        <h2>Historial de sorteos</h2>
+        <div id="historyList"></div>
+    </div>
+
+</div>
+
+<footer class="footer">
+    <p>ONE POINT CHALLENGE — DOUBLE D × MASTEROFRAQUETS</p>
+    <p>@doubled.cl · @masterofraquets · doubled.cl</p>
+</footer>
+
+<script>
+(function() {
+    'use strict';
+
+    const STORAGE_KEY = 'one-point-participants';
+    const HISTORY_KEY = 'one-point-draw-history';
+    const WINNERS_TO_DRAW = 8;
+    const POSITIONS = ['🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣'];
+    const PRIZES = ['Polera Double D', '20% descuento', '', '', '', '', '', ''];
+
+    const $ = id => document.getElementById(id);
+    let participants = [];
+    let excluded = new Set();
+    let currentWinners = [];
+    let revealAborted = false;
+
+    // ── SANITIZE ──
+    function esc(str) {
+        if (typeof str !== 'string') str = String(str);
+        const d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+    }
+
+    // ── AUDIT ──
+    function audit(msg) {
+        const now = new Date();
+        const ts = now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const log = $('auditLog');
+        const div = document.createElement('div');
+        div.innerHTML = `<span class="ts">[${ts}]</span> ${esc(msg)}`;
+        log.appendChild(div);
+        log.scrollTop = log.scrollHeight;
+    }
+
+    // ── LOAD ──
+    function loadParticipants() {
+        try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            participants = raw ? JSON.parse(raw) : [];
+        } catch { participants = []; }
+        renderParticipants();
+        updateStats();
+    }
+
+    // ── STATS ──
+    function updateStats() {
+        const total = participants.length;
+        const eligible = participants.filter(p => !excluded.has(p.id)).length;
+        $('totalStat').textContent = total;
+        $('eligibleStat').textContent = eligible;
+        $('probStat').textContent = eligible > 0
+            ? Math.min(100, Math.round((WINNERS_TO_DRAW / eligible) * 100)) + '%'
+            : '0%';
+
+        const drawBtn = $('drawBtn');
+        if (eligible < WINNERS_TO_DRAW) {
+            drawBtn.disabled = true;
+            drawBtn.textContent = `Faltan ${WINNERS_TO_DRAW - eligible} participantes`;
+        } else {
+            drawBtn.disabled = false;
+            drawBtn.textContent = '🎲 HACER SORTEO';
+        }
+    }
+
+    // ── RENDER PARTICIPANTS ──
+    function renderParticipants() {
+        const list = $('pList');
+        if (participants.length === 0) {
+            list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--gray-500);">No hay inscritos aún</div>';
+            return;
+        }
+
+        list.innerHTML = participants.map((p, i) => {
+            const isExcluded = excluded.has(p.id);
+            return `<div class="p-row${isExcluded ? ' excluded' : ''}">
+                <span class="num">#${i + 1}</span>
+                <span class="name">${esc(p.nombre)}</span>
+                <span class="age">${esc(p.edad)} años</span>
+                <button class="exclude-toggle${isExcluded ? ' active' : ''}"
+                    onclick="toggleExclude('${p.id}')"
+                    title="${isExcluded ? 'Incluir en sorteo' : 'Excluir del sorteo'}"
+                    aria-label="${isExcluded ? 'Incluir' : 'Excluir'}">${isExcluded ? '✕' : ''}</button>
+            </div>`;
+        }).join('');
+    }
+
+    // ── EXCLUDE ──
+    window.toggleExclude = function(id) {
+        if (excluded.has(id)) {
+            excluded.delete(id);
+            const p = participants.find(x => x.id === id);
+            if (p) audit(`${p.nombre} reincluido al sorteo`);
+        } else {
+            excluded.add(id);
+            const p = participants.find(x => x.id === id);
+            if (p) audit(`${p.nombre} excluido del sorteo`);
+        }
+        renderParticipants();
+        updateStats();
+    };
+
+    // ── FISHER-YATES SHUFFLE ──
+    function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+    }
+
+    // ── CONFIRM DIALOG ──
+    window.openConfirm = function() {
+        const eligible = participants.filter(p => !excluded.has(p.id)).length;
+        if (eligible < WINNERS_TO_DRAW) return;
+        $('confirmText').textContent = `Se seleccionarán ${WINNERS_TO_DRAW} ganadores de ${eligible} participantes elegibles.`;
+        $('confirmOverlay').classList.add('open');
+    };
+
+    window.closeConfirm = function() {
+        $('confirmOverlay').classList.remove('open');
+    };
+
+    // ── EXECUTE DRAW ──
+    window.executeDraw = function() {
+        closeConfirm();
+
+        const eligible = participants.filter(p => !excluded.has(p.id));
+        if (eligible.length < WINNERS_TO_DRAW) return;
+
+        // Generate seed for auditability
+        const seed = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        audit(`Sorteo iniciado — Semilla: ${seed} — Elegibles: ${eligible.length} — Excluidos: ${excluded.size}`);
+
+        // Fisher-Yates shuffle
+        const shuffled = shuffle(eligible);
+        currentWinners = shuffled.slice(0, WINNERS_TO_DRAW);
+
+        audit(`Ganadores seleccionados: ${currentWinners.map(w => w.nombre).join(', ')}`);
+
+        // Save to history
+        saveHistory(currentWinners, seed);
+
+        // Start reveal animation
+        revealAborted = false;
+        startReveal();
+    };
+
+    // ── REVEAL ANIMATION ──
+    async function startReveal() {
+        const stage = $('revealStage');
+        stage.classList.add('active');
+
+        for (let i = 0; i < currentWinners.length; i++) {
+            if (revealAborted) break;
+
+            const w = currentWinners[i];
+            $('revealTitle').textContent = i < 3 ? ['CAMPEÓN POTENCIAL', 'SUBCAMPEÓN POTENCIAL', 'TERCER LUGAR'][i] : `PARTICIPANTE ${i + 1}`;
+            $('revealTitle').style.animation = 'none';
+            void $('revealTitle').offsetWidth;
+            $('revealTitle').style.animation = 'fadeUp 0.6s ease-out forwards';
+
+            $('revealPosition').textContent = POSITIONS[i];
+            $('revealCounter').textContent = `${i + 1} de ${WINNERS_TO_DRAW}`;
+
+            // Slot spin effect
+            const slot = $('revealSlot');
+            const spinNames = shuffle(participants).slice(0, 8).map(p => p.nombre);
+
+            for (let s = 0; s < 6; s++) {
+                if (revealAborted) break;
+                slot.textContent = spinNames[s % spinNames.length];
+                slot.className = 'reveal-slot slot-anim';
+                await delay(120 + s * 40);
+            }
+
+            if (revealAborted) break;
+
+            // Final reveal
+            slot.textContent = w.nombre;
+            slot.className = 'reveal-slot slot-anim';
+
+            if (i === 0) fireConfetti();
+
+            await delay(2200);
+        }
+
+        stage.classList.remove('active');
+        showWinners();
+        if (!revealAborted) fireConfetti();
+    }
+
+    window.skipReveal = function() {
+        revealAborted = true;
+        $('revealStage').classList.remove('active');
+        showWinners();
+    };
+
+    function delay(ms) {
+        return new Promise(r => setTimeout(r, ms));
+    }
+
+    // ── SHOW WINNERS ──
+    function showWinners() {
+        const grid = $('winnersGrid');
+        const ts = new Date().toLocaleString('es-CL');
+        $('drawTimestamp').textContent = ts;
+
+        grid.innerHTML = currentWinners.map((w, i) => {
+            const isChamp = i < 2;
+            return `<div class="w-card${isChamp ? ' champion' : ''}" style="animation-delay:${i * 0.08}s">
+                <div class="w-pos">${POSITIONS[i]}</div>
+                <div class="w-name">${esc(w.nombre)}</div>
+                <div class="w-detail">${esc(w.edad)} años</div>
+                ${PRIZES[i] ? `<div class="w-prize">${PRIZES[i]}</div>` : ''}
+            </div>`;
+        }).join('');
+
+        $('winnersSection').classList.add('show');
+
+        // Not selected
+        const notSelected = participants.filter(p =>
+            !excluded.has(p.id) && !currentWinners.some(w => w.id === p.id)
+        );
+        if (notSelected.length > 0) {
+            $('notSelectedList').textContent = notSelected.map(p => p.nombre).join(' · ');
+            $('notSelectedSection').style.display = '';
+        }
+
+        // Toggle buttons
+        $('drawBtn').style.display = 'none';
+        $('redrawBtn').style.display = '';
+        $('copyBtn').style.display = '';
+        $('csvBtn').style.display = '';
+        $('printBtn').style.display = '';
+
+        audit(`Sorteo completado — ${ts}`);
+    }
+
+    // ── HISTORY ──
+    function saveHistory(winners, seed) {
+        try {
+            const raw = localStorage.getItem(HISTORY_KEY);
+            const history = raw ? JSON.parse(raw) : [];
+            history.unshift({
+                timestamp: new Date().toISOString(),
+                display: new Date().toLocaleString('es-CL'),
+                seed,
+                winners: winners.map(w => ({ nombre: w.nombre, edad: w.edad })),
+                totalEligible: participants.filter(p => !excluded.has(p.id)).length,
+                totalExcluded: excluded.size
+            });
+            // Keep last 20
+            if (history.length > 20) history.pop();
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+            renderHistory();
+        } catch (e) { console.error('History save error:', e); }
+    }
+
+    function renderHistory() {
+        try {
+            const raw = localStorage.getItem(HISTORY_KEY);
+            const history = raw ? JSON.parse(raw) : [];
+            if (history.length === 0) { $('historySection').style.display = 'none'; return; }
+
+            $('historySection').style.display = '';
+            $('historyList').innerHTML = history.map(h => `
+                <div class="history-item">
+                    <div class="h-date">${esc(h.display)} · Semilla: ${esc(h.seed)} · Elegibles: ${h.totalEligible}</div>
+                    <div class="h-names">${h.winners.map((w, i) => `${POSITIONS[i]} ${esc(w.nombre)}`).join(' · ')}</div>
+                </div>
+            `).join('');
+        } catch { /* ignore */ }
+    }
+
+    // ── EXPORT ──
+    window.copyWinners = function() {
+        if (!currentWinners.length) return;
+        const text = currentWinners.map((w, i) =>
+            `${POSITIONS[i]} ${w.nombre} (${w.edad} años)${PRIZES[i] ? ' — ' + PRIZES[i] : ''}`
+        ).join('\n');
+
+        navigator.clipboard.writeText(
+            `ONE POINT CHALLENGE — Ganadores\n${new Date().toLocaleString('es-CL')}\n\n${text}`
+        ).then(
+            () => audit('Ganadores copiados al portapapeles'),
+            () => audit('Error al copiar')
+        );
+    };
+
+    window.exportWinnersCSV = function() {
+        if (!currentWinners.length) return;
+        const header = 'Posicion,Nombre,Edad,Premio\n';
+        const rows = currentWinners.map((w, i) =>
+            `${i + 1},"${w.nombre}",${w.edad},"${PRIZES[i] || ''}"`
+        ).join('\n');
+
+        const blob = new Blob(['\uFEFF' + header + rows], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `ganadores_one_point_${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+        audit('CSV de ganadores exportado');
+    };
+
+    // ── CONFETTI ──
+    function fireConfetti() {
+        const canvas = $('confettiCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const colors = ['#2d5a3d', '#3a7a52', '#d4a843', '#f7f4ef', '#ffffff', '#e8c36a'];
+        const pieces = [];
+
+        for (let i = 0; i < 150; i++) {
+            pieces.push({
+                x: Math.random() * canvas.width,
+                y: -20 - Math.random() * 200,
+                w: 6 + Math.random() * 6,
+                h: 4 + Math.random() * 4,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                vx: (Math.random() - 0.5) * 4,
+                vy: 2 + Math.random() * 4,
+                rot: Math.random() * 360,
+                rv: (Math.random() - 0.5) * 10,
+                opacity: 1
+            });
+        }
+
+        let frame = 0;
+        const maxFrames = 180;
+
+        function animate() {
+            if (frame > maxFrames) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                return;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (const p of pieces) {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.05;
+                p.rot += p.rv;
+                if (frame > maxFrames - 40) p.opacity = Math.max(0, p.opacity - 0.03);
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot * Math.PI / 180);
+                ctx.globalAlpha = p.opacity;
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                ctx.restore();
+            }
+
+            frame++;
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    }
+
+    // ── SYNC ──
+    function sync() {
+        const prevCount = participants.length;
+        loadParticipants();
+        if (participants.length > prevCount) {
+            audit(`${participants.length - prevCount} nuevo(s) inscrito(s) detectado(s) — Total: ${participants.length}`);
+        }
+    }
+
+    setInterval(sync, 3000);
+
+    // ── INIT ──
+    loadParticipants();
+    renderHistory();
+    audit('Participantes cargados: ' + participants.length);
+
+})();
+</script>
+</body>
+</html>
